@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APCSP Quiz</title>
+    <title>Binary Numbers Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,15 +29,23 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            color: #fff;
             border: none;
             border-radius: 4px;
         }
-        #next-button {
-            background: #007BFF;
+        .option-button {
+            background-color: #add8e6;
+            color: #000;
         }
-        button:hover {
-            background: #0056b3;
+        .option-button:hover {
+            background-color: #87ceeb;
+        }
+        #next-button {
+            background: #32CD32;
+            color: #fff;
+        }
+        #end-button {
+            background: #d9534f;
+            color: #fff;
         }
         #result {
             margin-top: 20px;
@@ -51,60 +59,272 @@
     </style>
 </head>
 <body>
-    <h1>APCSP Quiz</h1>
-    <div id="student-entry">
-        <label for="student-name">Enter your name: </label>
-        <input type="text" id="student-name">
-        <button onclick="startQuiz()">Start Quiz</button>
-    </div>
-    <div id="quiz-container" style="display: none;">
-        <div id="timer">Time Remaining: 35:00</div>
+    <h1>Binary Numbers Quiz</h1>
+    <div id="quiz-container">
+        <div id="timer">Time Remaining: 50:00</div>
         <p id="question"></p>
         <div id="options"></div>
         <button id="next-button" style="display: none;">Next</button>
-        <button onclick="endTest()" style="background-color: #d9534f;">End Test</button>
+        <button id="end-button">End Quiz</button>
     </div>
     <p id="result"></p>
 
     <script>
         const quiz = [
-            { question: "What is an algorithm?", options: ["A detailed step-by-step process for solving a problem", "A random guess", "A type of programming language", "A computer system"], answer: 0 },
-            { question: "Which of the following is a binary number?", options: ["1101", "ABCD", "1234", "5678"], answer: 0 }
+    {
+        "question": "What is the binary representation of the decimal number 5?",
+        "options": ["101", "110", "111", "100"],
+        "answer": 0
+    },
+    {
+        "question": "What is the decimal value of the binary number 1011?",
+        "options": ["9", "10", "11", "12"],
+        "answer": 2
+    },
+    {
+        "question": "Which binary number is equivalent to the hexadecimal number 'A'?",
+        "options": ["1010", "1100", "1110", "1000"],
+        "answer": 0
+    },
+    {
+        "question": "What is the binary addition result of 1010 and 0110?",
+        "options": ["10000", "1110", "1011", "1100"],
+        "answer": 1
+    },
+    {
+        "question": "How many bits are in a byte?",
+        "options": ["4", "8", "16", "32"],
+        "answer": 1
+    },
+    {
+        "question": "What is the binary representation of the decimal number 15?",
+        "options": ["1111", "1110", "1101", "1011"],
+        "answer": 0
+    },
+    {
+        "question": "Which binary number is equivalent to the decimal number 20?",
+        "options": ["10101", "10100", "10011", "10010"],
+        "answer": 1
+    },
+    {
+        "question": "What is the result of the binary subtraction 1101 - 101?",
+        "options": ["1000", "1010", "1100", "1110"],
+        "answer": 1
+    },
+    {
+        "question": "What is the value of the most significant bit (MSB) in the binary number 11001?",
+        "options": ["1", "0", "None", "Undefined"],
+        "answer": 0
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 255?",
+        "options": ["11111110", "11111111", "11111101", "11111100"],
+        "answer": 1
+    },
+    {
+        "question": "What is the decimal equivalent of the binary number 10010?",
+        "options": ["16", "18", "20", "22"],
+        "answer": 1
+    },
+    {
+        "question": "How many unique values can a 4-bit binary number represent?",
+        "options": ["8", "16", "32", "64"],
+        "answer": 1
+    },
+    {
+        "question": "What is the binary representation of the decimal number 7?",
+        "options": ["111", "110", "101", "100"],
+        "answer": 0
+    },
+    {
+        "question": "Which binary number is equivalent to the hexadecimal number 'F'?",
+        "options": ["1111", "1110", "1101", "1100"],
+        "answer": 0
+    },
+    {
+        "question": "What is the binary addition result of 111 and 11?",
+        "options": ["1010", "1111", "1000", "1100"],
+        "answer": 2
+    },
+    {
+        "question": "What does the binary number 1001 represent in decimal?",
+        "options": ["8", "9", "10", "11"],
+        "answer": 1
+    },
+    {
+        "question": "What is the two's complement representation of -3 in a 4-bit binary system?",
+        "options": ["1101", "1011", "1110", "0110"],
+        "answer": 1
+    },
+    {
+        "question": "Which operation converts binary 1100 into decimal?",
+        "options": ["Addition", "Multiplication", "Division", "None"],
+        "answer": 0
+    },
+    {
+        "question": "How many unique values can a 3-bit binary number represent?",
+        "options": ["4", "6", "8", "10"],
+        "answer": 2
+    },
+    {
+        "question": "What is the decimal value of the binary number 111111?",
+        "options": ["60", "61", "62", "63"],
+        "answer": 3
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 32?",
+        "options": ["100000", "101000", "110000", "111000"],
+        "answer": 0
+    },
+    {
+        "question": "Which binary number is equivalent to the decimal number 13?",
+        "options": ["1100", "1101", "1110", "1111"],
+        "answer": 1
+    },
+    {
+        "question": "What is the decimal value of the binary number 110?",
+        "options": ["5", "6", "7", "8"],
+        "answer": 1
+    },
+    {
+        "question": "What is the hexadecimal equivalent of the binary number 1010?",
+        "options": ["A", "B", "C", "D"],
+        "answer": 0
+    },
+    {
+        "question": "How many bits are required to represent the decimal number 256 in binary?",
+        "options": ["7", "8", "9", "10"],
+        "answer": 2
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 1?",
+        "options": ["1", "10", "11", "100"],
+        "answer": 0
+    },
+    {
+        "question": "What is the decimal value of the binary number 1010?",
+        "options": ["8", "9", "10", "11"],
+        "answer": 2
+    },
+    {
+        "question": "What is the binary representation of the decimal number 12?",
+        "options": ["1100", "1101", "1110", "1111"],
+        "answer": 0
+    },
+    {
+        "question": "What is the binary addition result of 1001 and 0101?",
+        "options": ["1010", "1100", "1110", "10000"],
+        "answer": 3
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 0?",
+        "options": ["0", "1", "10", "11"],
+        "answer": 0
+    },
+    {
+        "question": "How many bits are required to represent the decimal number 15 in binary?",
+        "options": ["2", "3", "4", "5"],
+        "answer": 2
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 100?",
+        "options": ["1100100", "1100110", "1101000", "1101010"],
+        "answer": 0
+    },
+    {
+        "question": "Which binary number is equivalent to the hexadecimal number '1C'?",
+        "options": ["11110", "11100", "11010", "11000"],
+        "answer": 1
+    },
+    {
+        "question": "What is the result of binary multiplication of 101 and 11?",
+        "options": ["1001", "1010", "11011", "11111"],
+        "answer": 2
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 50?",
+        "options": ["110010", "110100", "111000", "111010"],
+        "answer": 0
+    },
+    {
+        "question": "What is the decimal equivalent of the binary number 11110?",
+        "options": ["30", "31", "32", "33"],
+        "answer": 1
+    },
+    {
+        "question": "What is the two's complement of binary 0101 in a 4-bit system?",
+        "options": ["1010", "1011", "1101", "1111"],
+        "answer": 1
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 200?",
+        "options": ["11001000", "11001100", "11010100", "11011000"],
+        "answer": 0
+    },
+    {
+        "question": "What is the hexadecimal equivalent of the binary number 1111?",
+        "options": ["F", "E", "D", "C"],
+        "answer": 0
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 25?",
+        "options": ["11001", "11010", "11100", "11101"],
+        "answer": 0
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 16?",
+        "options": ["10000", "10001", "10100", "10101"],
+        "answer": 0
+    },
+    {
+        "question": "What is the decimal equivalent of the binary number 1101?",
+        "options": ["11", "12", "13", "14"],
+        "answer": 2
+    },
+    {
+        "question": "How many bits are required to represent the decimal number 512 in binary?",
+        "options": ["8", "9", "10", "11"],
+        "answer": 2
+    },
+    {
+        "question": "What is the binary equivalent of the decimal number 8?",
+        "options": ["1000", "1001", "1010", "1011"],
+        "answer": 0
+    },
+    {
+        "question": "What is the hexadecimal equivalent of the binary number 1010?",
+        "options": ["A", "B", "C", "D"],
+        "answer": 0
+    },
+    {
+        "question": "What is the binary representation of the decimal number 4?",
+        "options": ["100", "101", "110", "111"],
+        "answer": 0
+    },
+    {
+        "question": "What is the decimal equivalent of the binary number 1000?",
+        "options": ["6", "7", "8", "9"],
+        "answer": 2
+    }
         ];
-
-        let currentQuestionIndex = 0;
+    let currentQuestionIndex = 0;
         let score = 0;
         let incorrect = 0;
-        let studentName = "";
         let timer;
-        let timeRemaining = 35 * 60; // 35 minutes in seconds
+        let timeRemaining = 50 * 60; // 50 minutes in seconds
 
-        const studentEntry = document.getElementById("student-entry");
         const questionElement = document.getElementById("question");
         const optionsElement = document.getElementById("options");
         const nextButton = document.getElementById("next-button");
+        const endButton = document.getElementById("end-button");
         const resultElement = document.getElementById("result");
         const timerElement = document.getElementById("timer");
-
-        function startQuiz() {
-            console.log("Start Quiz clicked");
-            studentName = document.getElementById("student-name").value;
-            if (!studentName.trim()) {
-                alert("Please enter your name to start the quiz.");
-                return;
-            }
-            console.log("Name entered:", studentName);
-            studentEntry.style.display = "none";
-            document.getElementById("quiz-container").style.display = "block";
-            startTimer();
-            loadQuestion();
-        }
 
         function startTimer() {
             timer = setInterval(() => {
                 if (timeRemaining <= 0) {
                     clearInterval(timer);
-                    endTest();
+                    endQuiz();
                 } else {
                     timeRemaining--;
                     updateTimerDisplay();
@@ -126,7 +346,7 @@
             question.options.forEach((option, index) => {
                 const button = document.createElement("button");
                 button.textContent = option;
-                button.style.backgroundColor = '#006400'; // Green for answers
+                button.className = "option-button";
                 button.onclick = () => selectAnswer(index);
                 optionsElement.appendChild(button);
             });
@@ -157,46 +377,40 @@
             if (currentQuestionIndex < quiz.length) {
                 loadQuestion();
             } else {
-                endTest();
+                endQuiz();
             }
         };
 
-        function endTest() {
+        endButton.onclick = () => {
+            endQuiz();
+        };
+
+        function endQuiz() {
             clearInterval(timer);
             showFinalScore();
+            saveResults();
         }
 
         function showFinalScore() {
             questionElement.textContent = "Quiz Complete!";
             optionsElement.innerHTML = "";
-            resultElement.textContent = `Name: ${studentName}\nCorrect: ${score}\nIncorrect: ${incorrect}`;
+            resultElement.textContent = `Your score is ${score}/${quiz.length}. \nCorrect answers: ${score}, Incorrect answers: ${incorrect}.`;
             nextButton.style.display = "none";
-
-            saveResults();
-
-            const restartButton = document.createElement("button");
-            restartButton.textContent = "Restart Quiz";
-            restartButton.onclick = restartQuiz;
-            optionsElement.appendChild(restartButton);
-        }
-
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            incorrect = 0;
-            timeRemaining = 35 * 60;
-            resultElement.textContent = "";
-            startQuiz();
+            endButton.style.display = "none";
         }
 
         function saveResults() {
-            const docContent = `Student: ${studentName}\nCorrect: ${score}\nIncorrect: ${incorrect}`;
+            const docContent = `Quiz Results:\n\nScore: ${score}/${quiz.length}\nCorrect Answers: ${score}\nIncorrect Answers: ${incorrect}`;
             const blob = new Blob([docContent], { type: "application/msword" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = `${studentName}_quiz_results.doc`;
+            link.download = "quiz_results.doc";
             link.click();
         }
+
+        // Start the quiz and timer
+        startTimer();
+        loadQuestion();
     </script>
 </body>
 </html>
