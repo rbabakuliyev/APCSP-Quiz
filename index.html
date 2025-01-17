@@ -67,8 +67,7 @@
     <script>
         const quiz = [
             { question: "What is an algorithm?", options: ["A detailed step-by-step process for solving a problem", "A random guess", "A type of programming language", "A computer system"], answer: 0 },
-            { question: "Which of the following is a binary number?", options: ["1101", "ABCD", "1234", "5678"], answer: 0 },
-            // Add remaining questions here
+            { question: "Which of the following is a binary number?", options: ["1101", "ABCD", "1234", "5678"], answer: 0 }
         ];
 
         let currentQuestionIndex = 0;
@@ -186,28 +185,7 @@
         }
 
         function saveResults() {
-            const docContent = `Student: ${studentName}
-Correct: ${score}
-Incorrect: ${incorrect}`;
-
-            // Save individual student result
-            const blob = new Blob([docContent], { type: "application/msword" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `${studentName}_quiz_results.doc`;
-            link.click();
-
-            // Append to central results document
-            fetch("https://script.google.com/a/macros/magnoliapublicschools.org/s/AKfycbw_pq64wuevUlbCFPEBWqDHz05P48oiZ-6jkahxqLgHxx3Sowy1O5YqiRrzaSNEKwKi/exec", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    studentName: studentName,
-                    correct: score,
-                    incorrect: incorrect
-                })
-            }).catch((error) => console.error("Error saving to central results:", error));
-        }\nCorrect: ${score}\nIncorrect: ${incorrect}`;
+            const docContent = `Student: ${studentName}\nCorrect: ${score}\nIncorrect: ${incorrect}`;
             const blob = new Blob([docContent], { type: "application/msword" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
