@@ -29,7 +29,7 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background: #006400;
+            background: #007BFF;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -60,14 +60,15 @@
         <p id="question"></p>
         <div id="options"></div>
         <button id="next-button" style="display: none;">Next</button>
-        <button onclick="endTest()" style="background-color: #d9534f;">End Test</button>
+        <button onclick="endTest()" style="background-color: #007BFF;">End Test</button>
     </div>
     <p id="result"></p>
 
     <script>
         const quiz = [
             { question: "What is an algorithm?", options: ["A detailed step-by-step process for solving a problem", "A random guess", "A type of programming language", "A computer system"], answer: 0 },
-            { question: "Which of the following is a binary number?", options: ["1101", "ABCD", "1234", "5678"], answer: 0 }
+            { question: "Which of the following is a binary number?", options: ["1101", "ABCD", "1234", "5678"], answer: 0 },
+            // Add remaining questions here
         ];
 
         let currentQuestionIndex = 0;
@@ -185,7 +186,28 @@
         }
 
         function saveResults() {
-            const docContent = `Student: ${studentName}\nCorrect: ${score}\nIncorrect: ${incorrect}`;
+            const docContent = `Student: ${studentName}
+Correct: ${score}
+Incorrect: ${incorrect}`;
+
+            // Save individual student result
+            const blob = new Blob([docContent], { type: "application/msword" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${studentName}_quiz_results.doc`;
+            link.click();
+
+            // Append to central results document
+            fetch("https://script.google.com/macros/s/your-google-apps-script-id/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    studentName: studentName,
+                    correct: score,
+                    incorrect: incorrect
+                })
+            }).catch((error) => console.error("Error saving to central results:", error));
+        }\nCorrect: ${score}\nIncorrect: ${incorrect}`;
             const blob = new Blob([docContent], { type: "application/msword" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
