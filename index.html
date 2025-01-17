@@ -188,13 +188,29 @@
         }
 
         function saveResults() {
-            const docContent = `Student: ${studentName}\nCorrect: ${score}\nIncorrect: ${incorrect}`;
-            const blob = new Blob([docContent], { type: "application/msword" });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `${studentName}_quiz_results.doc`;
-            link.click();
+    const payload = {
+        studentName: studentName,
+        correct: score,
+        incorrect: incorrect,
+    };
+
+    fetch("https://script.google.com/macros/s/AKfycbwrwr-4vqyQ6F7aHxe8QFm-wMPujq4wXVqkKjNX7Eysmul42CAvW9TkZSgpLOjmhKO4/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "success") {
+            alert("Results successfully saved to Google Drive!");
+        } else {
+            alert("Failed to save results. Please try again.");
         }
-    </script>
+    })
+    .catch(error => {
+        console.error("Error saving results:", error);
+        alert("An error occurred while saving results.");
+    });
+}
 </body>
 </html>
