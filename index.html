@@ -8,7 +8,207 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            background-color: #f9f<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APCSP Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
             background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+        #next-button {
+            background: #007BFF;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #timer {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <h1>APCSP Quiz</h1>
+    <div id="student-entry">
+        <label for="student-name">Enter your name: </label>
+        <input type="text" id="student-name">
+        <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+    <div id="quiz-container" style="display: none;">
+        <div id="timer">Time Remaining: 35:00</div>
+        <p id="question"></p>
+        <div id="options"></div>
+        <button id="next-button" style="display: none;">Next</button>
+        <button onclick="endTest()" style="background-color: #d9534f;">End Test</button>
+    </div>
+    <p id="result"></p>
+
+    <script>
+        const quiz = [
+            { question: "What is an algorithm?", options: ["A detailed step-by-step process for solving a problem", "A random guess", "A type of programming language", "A computer system"], answer: 0 },
+            { question: "Which of the following is a binary number?", options: ["1101", "ABCD", "1234", "5678"], answer: 0 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let incorrect = 0;
+        let studentName = "";
+        let timer;
+        let timeRemaining = 35 * 60; // 35 minutes in seconds
+
+        const studentEntry = document.getElementById("student-entry");
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const nextButton = document.getElementById("next-button");
+        const resultElement = document.getElementById("result");
+        const timerElement = document.getElementById("timer");
+
+        function startQuiz() {
+            studentName = document.getElementById("student-name").value;
+            if (!studentName.trim()) {
+                alert("Please enter your name to start the quiz.");
+                return;
+            }
+            studentEntry.style.display = "none";
+            document.getElementById("quiz-container").style.display = "block";
+            startTimer();
+            loadQuestion();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    endTest();
+                } else {
+                    timeRemaining--;
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            timerElement.textContent = `Time Remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        function loadQuestion() {
+            const question = quiz[currentQuestionIndex];
+            questionElement.textContent = question.question;
+            optionsElement.innerHTML = "";
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.style.backgroundColor = '#006400'; // Green for answers
+                button.onclick = () => selectAnswer(index);
+                optionsElement.appendChild(button);
+            });
+
+            nextButton.style.display = "none";
+        }
+
+        function selectAnswer(selectedIndex) {
+            const question = quiz[currentQuestionIndex];
+
+            if (selectedIndex === question.answer) {
+                score++;
+                resultElement.textContent = "Correct!";
+                resultElement.style.color = "green";
+            } else {
+                incorrect++;
+                resultElement.textContent = `Wrong! The correct answer was: ${question.options[question.answer]}`;
+                resultElement.style.color = "red";
+            }
+
+            nextButton.style.display = "block";
+        }
+
+        nextButton.onclick = () => {
+            currentQuestionIndex++;
+            resultElement.textContent = "";
+
+            if (currentQuestionIndex < quiz.length) {
+                loadQuestion();
+            } else {
+                endTest();
+            }
+        };
+
+        function endTest() {
+            clearInterval(timer);
+            showFinalScore();
+        }
+
+        function showFinalScore() {
+            questionElement.textContent = "Quiz Complete!";
+            optionsElement.innerHTML = "";
+            resultElement.textContent = `Name: ${studentName}\nCorrect: ${score}\nIncorrect: ${incorrect}`;
+            nextButton.style.display = "none";
+
+            saveResults();
+
+            const restartButton = document.createElement("button");
+            restartButton.textContent = "Restart Quiz";
+            restartButton.onclick = restartQuiz;
+            optionsElement.appendChild(restartButton);
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            incorrect = 0;
+            timeRemaining = 35 * 60;
+            resultElement.textContent = "";
+            startQuiz();
+        }
+
+        function saveResults() {
+            const docContent = `Student: ${studentName}\nCorrect: ${score}\nIncorrect: ${incorrect}`;
+            const blob = new Blob([docContent], { type: "application/msword" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${studentName}_quiz_results.doc`;
+            link.click();
+        }
+    </script>
+</body>
+</html>
+9f9;
             margin: 0;
             padding: 20px;
         }
