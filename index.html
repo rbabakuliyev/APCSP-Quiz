@@ -29,7 +29,7 @@
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background: #007BFF;
+            background: #006400;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -59,7 +59,7 @@
         <div id="timer">Time Remaining: 35:00</div>
         <p id="question"></p>
         <div id="options"></div>
-        <button id="next-button" style="display: none;">Next</button>
+        <button id="next-button" style="display: none; background: #007BFF;">Next</button>
         <button onclick="endTest()" style="background-color: #007BFF;">End Test</button>
     </div>
     <p id="result"></p>
@@ -123,6 +123,7 @@
             question.options.forEach((option, index) => {
                 const button = document.createElement("button");
                 button.textContent = option;
+                button.style.backgroundColor = '#006400'; // Green for answers
                 button.onclick = () => selectAnswer(index);
                 optionsElement.appendChild(button);
             });
